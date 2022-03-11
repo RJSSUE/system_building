@@ -59,6 +59,14 @@ function draw() {
             .text(s => s.content)
             .attr("opacity",0.8)
             .classed("note", true);
+    text = svg.append("g")
+            .selectAll("text")
+            .data(notes)
+            .join("text")
+            .text(s => s.content)
+            .attr("x", s => xScale(s.type))
+            .attr("y", s => yScale(s.index)+10)
+            .attr("display", 'null');
 
     const drag = d3.drag()
         .on("start", dragstart)
@@ -68,11 +76,8 @@ function draw() {
     note.call(drag).on("click", click);
 
     function click(event, d) {
-        delete d.fx;
-        delete d.fy;
         d3.select(this)
             .classed("fixed", false);
-        draw_and_calc();
     }
 
     function dragstart() {
