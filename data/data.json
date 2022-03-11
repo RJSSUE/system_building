@@ -1,0 +1,119 @@
+{
+    "notes": [
+        {
+            "type": "stakeholder_category",
+            "content": "Offender",
+            "index": 0
+        },
+        {
+            "type": "stakeholder_individual",
+            "content": "Bob",
+            "index": 0
+        },
+        {
+            "type": "stakeholder_category",
+            "content": "Online Platform (moderator)",
+            "index": 1
+        },
+        {
+            "type": "stakeholder_category",
+            "content": "Online Community Member",
+            "index": 2
+        },
+        {
+            "type": "stakeholder_category",
+            "content": "Friend",
+            "index": 3
+        },
+        {
+            "type": "stakeholder_individual",
+            "content": "Emily",
+            "index": 1
+        },
+        {
+            "type": "stakeholder_category",
+            "content": "Family",
+            "index": 4
+        },
+        {
+            "type": "need",
+            "content": "I need to make sense of what has happened",
+            "index": 0
+        },
+        {
+            "type": "need",
+            "content": "I need emotional support",
+            "index": 1
+        },
+        {
+            "type": "need",
+            "content": "I hope to do justice to the offenders",
+            "index": 2
+        },
+        {
+            "type": "need",
+            "content": "I hope to be safe",
+            "index": 3
+        },
+        {
+            "type": "need",
+            "content": "I hope to transform the online environment",
+            "index": 4
+        },
+        {
+            "type": "action",
+            "content": "talk about why they conduct the harm",
+            "index": 0
+        },
+        {
+            "type": "action",
+            "content": "acknowledge wrong-doing and issue apology",
+            "index": 1
+        },
+        {
+            "type": "action",
+            "content": "provide emotional support",
+            "index": 2
+        },
+        {
+            "type": "action",
+            "content": "show stance against harm",
+            "index": 3
+        },
+        {
+            "type": "action",
+            "content": "provide advice on how to address the harm",
+            "index": 4
+        },
+        {
+            "type": "action",
+            "content": "moderate harmful content",
+            "index": 5
+        },
+        {
+            "type": "action",
+            "content": "improve infrastructural design",
+            "index": 6
+        },
+        {
+            "type": "action",
+            "content": "refine censorship",
+            "index": 7
+        },
+        {
+            "type": "action",
+            "content": "report or call out offenders",
+            "index": 8
+        },
+        {
+            "type": "action",
+            "content": "raise public awareness",
+            "index": 9
+        },
+        {
+            "type": "action",
+            "content": "prevent in-school repercussion",
+            "index": 10
+        }
+    ]
+}
