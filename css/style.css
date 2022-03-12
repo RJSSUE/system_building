@@ -31,6 +31,10 @@ html,body {
     font-size: 12px;
     overflow: hidden;
 }
+textarea {
+    position: absolute;
+    text-align: center;
+}
 .title {
     font-size: 1rem;
     text-anchor: middle;
@@ -41,7 +45,10 @@ html,body {
     background-color: rgba(240, 240, 240, 0.9);
     overflow: hidden;
 }
-
+#stickynotes{
+    position: absolute;
+    text-align: center;
+}
 #tooltip{
     position: absolute;
     text-align: center;

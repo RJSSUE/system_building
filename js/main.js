@@ -2,14 +2,14 @@ let _width = $(window).width();
 let _height = $(window).height();
 let width = 0.9 * _width;
 let height = 0.96 * _height;
-let padding = {'left': 0.25*width, 'bottom': 0.1*height, 'top': 0.2*height, 'right': 0.1*width};
+let padding = {'left': 0.25*width, 'bottom': 0.1*height, 'top': 0.1*height, 'right': 0.1*width};
 let data = null;
 let data_file = './data/data.json';
 let constants = {
 
 };
 let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','action','need','event'];
-let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#d23931','#b6dcb6'];
+let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d23931'];
 let stickyNoteCount = {
     'stakeholder_category':0,
     'stakeholder_individual':0,
@@ -24,7 +24,7 @@ function get_input() {
 
 }
 function create(before_start = () => {}) {
-
+    
 }
 
 function clamp(x, lo, hi) {
@@ -33,40 +33,34 @@ function clamp(x, lo, hi) {
 
 function draw() {
     notes = data.notes;
-    notes_cnt = {};
+    for (i in notes){
+        stickyNoteCount[notes[i].type] += 1;
+    }
     colorScale = d3.scaleOrdinal()
                      .domain(stickyNoteTypes)
                      .range(stickyNoteColors);
     xScale = d3.scaleBand()
                 .domain(stickyNoteTypes)
-                .range([width*2/3, width])
+                .range([width*1/3, width])
                 .padding(0.3);
     yScale = d3.scaleLinear()
                 .domain([0,11])
-                .range([height-padding.bottom,height/2]);
+                .range([height-padding.top,padding.bottom]);
     // notes
-    note = svg.append("g")
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 0.5)
-            .selectAll("rect")
-            .data(notes)
-            .join("rect")
-            .attr("x", s => xScale(s.type))
-            .attr("y", s => yScale(s.index))
-            .attr("width",xScale.bandwidth())
-            .attr("height",20)
-            .attr('fill', s => colorScale(s.type))
-            .text(s => s.content)
-            .attr("opacity",0.8)
-            .classed("note", true);
-    text = svg.append("g")
-            .selectAll("text")
-            .data(notes)
-            .join("text")
-            .text(s => s.content)
-            .attr("x", s => xScale(s.type))
-            .attr("y", s => yScale(s.index)+10)
-            .attr("display", 'null');
+    note = d3.select('#stickynotes').append("g")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 0.5)
+        .selectAll("textarea")
+        .data(notes)
+        .join("textarea")
+        .style("margin-left", s => xScale(s.type)+'px')
+        .style("margin-top", s => yScale(s.index)+'px')
+        .attr("rows",2)
+        .attr("cols",15)
+        .style('background-color', s => colorScale(s.type))
+        .text(s => s.content)
+        .style('color',"white")
+        .attr("opacity",0.8);
 
     const drag = d3.drag()
         .on("start", dragstart)
@@ -81,18 +75,16 @@ function draw() {
     }
 
     function dragstart() {
-        d3.select(this).classed("fixed", true);
+        d3.select(this).attr("opacity",1);
     }
 
     function dragged(event, d) {
         d3.select(this)
-            .attr("x",d.x = event.x)
-            .attr("y",d.y = event.y)
-            .attr('opacity',0.8);
+            .style("margin-left", d.x = event.x+"px")
+            .style("margin-top", d.y = event.y+'px');
     }
     function dragend(event, d){
-        d.fx = true;
-        d.fy = true;
+        d3.select(this).attr("opacity",0.8);
     }
 }
 
