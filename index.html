@@ -14,8 +14,8 @@
 	<div id='selector'>
 		<form>
 			<p id="note_type">Please choose the note type (stakeholder or action)</p>
-			<label for="notes">Choose a type:</label>
-			<select name="notes" id="notes">
+			<label for="notetype">Choose a type:</label>
+			<select name="notes" id="notetype">
 				<option value="stakeholder_category">stakeholder (category)</option>
 				<option value="stakeholder_individual">stakeholder (individual)</option>
 				<option value="action">action</option>
@@ -25,13 +25,16 @@
 			<p id="content">Please input the content you want to display on the note</p>
 			<input id="text_on_note">
 			<br><br>
-			<button id="create">create new note</button>
+			<button id="create" type="button">create new note</button>
+			<p id="remove_note">Remove: double click on the sticky note to remove it</p>
+			<button id="next">Next</button>
 		</form>
 		<p>
 		</p>
 	</div>
 	<div id='container'>
 		<div id='stickynotes'></div>
+		<div id="user_created_notes"></div>
 		<div id='tooltip'></div>
 		<svg></svg>
 	</div>

@@ -18,27 +18,18 @@ let stickyNoteCount = {
     'event':0
 }
 
-let notes,notes_dict,svg,note,text;
+let notes,notes_dict,svg,note,text,drag;
 let xScale,yScale,colorScale;
-function get_input() {
-
-}
-function create(before_start = () => {}) {
-    
+function create_note(new_note){
 }
 
-function clamp(x, lo, hi) {
-    return x < lo ? lo : x > hi ? hi : x;
+function double_click(event, d){
+    d3.select(this).remove();
 }
-
-function draw() {
-    notes = data.notes;
-    for (i in notes){
-        stickyNoteCount[notes[i].type] += 1;
-    }
+function draw(notes) {
     colorScale = d3.scaleOrdinal()
-                     .domain(stickyNoteTypes)
-                     .range(stickyNoteColors);
+                 .domain(stickyNoteTypes)
+                 .range(stickyNoteColors);
     xScale = d3.scaleBand()
                 .domain(stickyNoteTypes)
                 .range([width*1/3, width])
@@ -47,9 +38,7 @@ function draw() {
                 .domain([0,11])
                 .range([height-padding.top,padding.bottom]);
     // notes
-    note = d3.select('#stickynotes').append("g")
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 0.5)
+    note = d3.select('#stickynotes')
         .selectAll("textarea")
         .data(notes)
         .join("textarea")
@@ -60,9 +49,9 @@ function draw() {
         .style('background-color', s => colorScale(s.type))
         .text(s => s.content)
         .style('color',"white")
-        .attr("opacity",0.8);
+        .on("dblclick", double_click);
 
-    const drag = d3.drag()
+    drag = d3.drag()
         .on("start", dragstart)
         .on("drag", dragged)
         .on("end",dragend);
@@ -70,12 +59,11 @@ function draw() {
     note.call(drag).on("click", click);
 
     function click(event, d) {
-        d3.select(this)
-            .classed("fixed", false);
+        //d3.select(this).attr("opacity",0.8);
     }
 
     function dragstart() {
-        d3.select(this).attr("opacity",1);
+        d3.select(this).classed("user", true);
     }
 
     function dragged(event, d) {
@@ -84,12 +72,20 @@ function draw() {
             .style("margin-top", d.y = event.y+'px');
     }
     function dragend(event, d){
-        d3.select(this).attr("opacity",0.8);
+        d3.select(this).attr("opacity",1);
     }
+
+
 }
 
 function main() {
     d3.json(data_file).then(function (DATA) {
+        data = DATA;
+        notes = data.notes;
+        for (i in notes){
+            stickyNoteCount[notes[i].type] += 1;
+        }
+        console.log(notes);
         svg = d3.select('#container')
             .select('svg')
             .attr('width', width)
@@ -103,14 +99,53 @@ function main() {
             .style('left',width*0.1 + 'px')
             .style('top', height*0.1 + 'px')
             .style('visibility', 'visible');
-        d3.select('#create')
-            .on('click',()=>{
-                create(get_input);
-            });
-        data = DATA;
-        draw();
+        d3.select('#notetype').on('change',()=> {
+            let new_note = {"type": "","content": "","index": 0};
+            let type = document.getElementById("notetype");
+            let index = type.selectedIndex;
+            /*
+            new_note["type"] = type.options[index].value;
+            new_note["index"] = stickyNoteCount[new_note["type"]]+1;
+            new_note["content"] = document.getElementById("text_on_note").value;
+            //userdata.push(new_note);
+            notes.push(new_note);
+            console.log(new_note);
+            console.log(notes);
+            */
+
+        })
+
+        d3.select('#create').on('click',()=> {
+            let new_note = {"type": "","content": "","index": 0}
+            let type = document.getElementById("notetype");
+            let index = type.selectedIndex;
+            new_note["type"] = type.options[index].value;
+            new_note["index"] = stickyNoteCount[new_note["type"]]+1;
+            new_note["content"] = document.getElementById("text_on_note").value;
+            notes.push(new_note);
+            note = d3.select('#stickynotes')
+                .selectAll("textarea")
+                .data(notes)
+                .enter()
+                .append("textarea")
+                .style("margin-left", width*0.1 + 'px')
+                .style("margin-top", height*0.4 + 'px')
+                .attr("rows",2)
+                .attr("cols",15)
+                .style('background-color', colorScale(new_note["type"]))
+                .text(new_note["content"])
+                .style('color',"white")
+                .call(drag).on("click", ()=>{})
+                .on("dblclick", double_click);
+        })
+        d3.select('#next').on("click",()=>{
+            var content = JSON.stringify({"notes": notes});
+            var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "user.json");
+        })
+
+        draw(notes);
     })
 }
 
 main()
-
