@@ -32,6 +32,7 @@ html,body {
     overflow: hidden;
 }
 textarea {
+    resize: none;
     position: absolute;
     text-align: center;
 }
