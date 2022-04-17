@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title> Sense_making </title>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/d3.v6.min.js"></script>
+	<script src="js/FileSaver.js"></script>
+
+	<link rel="stylesheet" href="css/w3.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div id='selector'>
+		<form>
+			<p id="note_type">Please choose the note type (stakeholder or action)</p>
+			<label for="notetype">Choose a type:</label>
+			<select name="notes" id="notetype">
+				<option value="stakeholder_category">stakeholder (category)</option>
+				<option value="stakeholder_individual">stakeholder (individual)</option>
+				<option value="action">action</option>
+				<option value="need">need</option>
+			</select>
+			<br><br>
+			<p id="content">Please input the content you want to display on the note</p>
+			<input id="text_on_note">
+			<br><br>
+			<button id="create" type="button">create new note</button>
+			<p id="remove_note">Remove: double click on the sticky note to remove it</p>
+			<button id="next" type="button">Next</button>
+		</form>
+		<p>
+		</p>
+	</div>
+	<div id='container'>
+		<div id='stickynotes'></div>
+		<div id="timeline" style="visibility: hidden">
+			<h3>Put the sticky notes onto the timeline:</h3>
+			<br/>
+			<br/>
+			<div style="border:3px solid #ccc"></div>
+		</div>
+		<div id='pair' style="visibility: hidden">
+			<h3>Write down the actions you want them to perform:</h3>
+			<br/>
+			<br/>
+			<label for="needtype">For need</label>
+			<select id="needtype">
+				<option>I need to feel safe</option>
+				<option>I need emotional support</option>
+				<option>I need to sanction the offenders</option>
+				<option>I need to transform the online environment</option>
+			</select>
+			<label for="stakeholdertype">I hope</label>
+			<select id="stakeholdertype">
+				<option>offenders</option>
+				<option>online platform</option>
+				<option>family and friends</option>
+				<option>online community members</option>
+			</select>
+			<label for="actiontype">can</label>
+			<select id="actiontype">
+				<option>empathize with me</option>
+				<option>support me</option>
+			</select>
+			<br/>
+			<br/>
+			<button style="float:right" id="jump">next</button>
+		</div>
+		<svg></svg>
+	</div>
+	
+<script src="js/StickyNote.js"></script>
+</body>

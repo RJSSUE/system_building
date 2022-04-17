@@ -77,7 +77,21 @@ function draw(notes) {
 
 
 }
-
+function pairing() {
+    d3.select('#selector').style('visibility','hidden');
+    d3.select('#container').style('visibility','hidden');
+    d3.select('#pair')
+            .style('visibility','visible')
+            .style('left',width*0.1 + 'px')
+            .style('top', height*0.3 + 'px');
+}
+function timeline() {
+    d3.select('#pair').style('visibility','hidden');
+    d3.select('#timeline')
+            .style('visibility','visible')
+            .style('left',width*0.1 + 'px')
+            .style('top', height*0.5 + 'px');
+}
 function main() {
     d3.json(data_file).then(function (DATA) {
         data = DATA;
@@ -142,6 +156,10 @@ function main() {
             var content = JSON.stringify({"notes": notes});
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
+            pairing();
+        })
+        d3.select('#jump').on("click",()=>{
+            timeline();
         })
 
         draw(notes);

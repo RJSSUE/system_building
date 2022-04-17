@@ -1,43 +1,26 @@
 <!DOCTYPE html>
 <head>
-	<meta charset="utf-8">
-	<title> Sense_making </title>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/d3.v6.min.js"></script>
-	<script src="js/FileSaver.js"></script>
+    <meta charset="UTF-8">
+    <title>Sense_making</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/d3.v6.min.js"></script>
+    <script src="js/FileSaver.js"></script>
 
-	<link rel="stylesheet" href="css/w3.css">
-	<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-	<div id='selector'>
-		<form>
-			<p id="note_type">Please choose the note type (stakeholder or action)</p>
-			<label for="notetype">Choose a type:</label>
-			<select name="notes" id="notetype">
-				<option value="stakeholder_category">stakeholder (category)</option>
-				<option value="stakeholder_individual">stakeholder (individual)</option>
-				<option value="action">action</option>
-				<option value="need">need</option>
-			</select>
-			<br><br>
-			<p id="content">Please input the content you want to display on the note</p>
-			<input id="text_on_note">
-			<br><br>
-			<button id="create" type="button">create new note</button>
-			<p id="remove_note">Remove: double click on the sticky note to remove it</p>
-			<button id="next">Next</button>
-		</form>
-		<p>
-		</p>
-	</div>
-	<div id='container'>
-		<div id='stickynotes'></div>
-		<div id="user_created_notes"></div>
-		<div id='tooltip'></div>
-		<svg></svg>
-	</div>
-	
-<script src="js/main.js"></script>
+    <div class="content">
+        <h1>Welcome to the online harm restorative platform!</h1>
+        <p>This system is designed to help people make sense of what has happened in online harm and find ways to address the harm.</p>
+        <p>In the system, you will go through the following processes:</p>
+        <ul>
+            <li>Share a harm case you've experienced</li>
+            <li>Draw out an action plan to address the harm case</li>
+        </ul>
+        <img src="images/support.png">
+        <br/>
+        <br/>
+        <button style="float:right" onclick="window.location.href = './information.html'">next</button>
+    </div>
 </body>
