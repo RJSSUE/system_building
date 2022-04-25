@@ -37,24 +37,34 @@ textarea {
     text-align: center;
 }
 .content {
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin-left: 20%;
-    margin-right: 20%;
-    padding: 1%;
+    /*
+    display: flex;
+    flex-direction: column;*/
+    overflow: auto;
+    height: 100%;
 }
 .title {
     font-size: 1rem;
     text-anchor: middle;
 }
-#container {
-    width: 100%; 
+.container {
+    padding-top:5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    position: relative;
+    overflow: auto;
     height: 100%;
-    overflow: hidden;
+    margin-bottom:5%;
 }
 #stickynotes{
+    /*display: flex;
+    width: 1%;
+    height: 10%;*/
     position: absolute;
     text-align: center;
+}
+#pair{
+    /**/
 }
 #tooltip{
     position: absolute;
@@ -71,14 +81,11 @@ textarea {
     opacity: 0.8;
 }
 #selector{
-    position: absolute;
+    /*position: absolute;*/
     text-anchor: middle;
     font-size: 0.7rem;
     opacity: 80%;
     visibility: visible;
-}
-#pair{
-    position: absolute;
 }
 button{
     cursor: pointer;
@@ -101,19 +108,4 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:hover {
     background: #666;
 }
-note {
-  display: inline-block;
-  height: 50px; /*sets height of element*/
-  background: cornflowerblue; /*sets the background of this element (here a solid colour)*/
-  transition: all 0.1s; /*sets a transition (for hover effect)*/
-  padding-left: 20px; /*sets 'padding'*/
-  padding-right: 20px; /*sets 'padding'*/
-  line-height: 50px; /*for this, it sets vertical alignment*/
-  opacity: 1;
-}
-note:hover {
-  opacity: 1;
-}
-.user{
-     opacity: 1;
-}
+

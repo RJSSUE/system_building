@@ -18,13 +18,30 @@ let stickyNoteCount = {
     'event':0
 }
 
-let notes,notes_dict,svg,note,text,drag;
+let notes,notes_dict,note,text,drag;
 let xScale,yScale,colorScale;
 function create_note(new_note){
 }
 
 function double_click(event, d){
-    d3.select(this).remove();
+    d3.select(this)
+        .text((s) => {
+            let i = 0;
+            notes.map((d)=>{
+                console.log(d);
+                if (d.content==s.content){
+                    delete d;
+                    return;
+                }
+                else{
+                    d.index = i;
+                    i += 1;
+                    return d;
+                }
+            });
+            stickyNoteCount[s.type] -= 1;
+        })
+        .remove();
 }
 function draw(notes) {
     colorScale = d3.scaleOrdinal()
@@ -32,11 +49,11 @@ function draw(notes) {
                  .range(stickyNoteColors);
     xScale = d3.scaleBand()
                 .domain(stickyNoteTypes)
-                .range([width*1/3, width])
+                .range([width*1/4, width*5/6])
                 .padding(0.3);
     yScale = d3.scaleLinear()
                 .domain([0,11])
-                .range([height-padding.top,padding.bottom]);
+                .range([0,height*7/8]);
     // notes
     note = d3.select('#stickynotes')
         .selectAll("textarea")
@@ -78,19 +95,22 @@ function draw(notes) {
 
 }
 function pairing() {
-    d3.select('#selector').style('visibility','hidden');
+    /*d3.select('#selector').style('visibility','hidden');
     d3.select('#container').style('visibility','hidden');
     d3.select('#pair')
             .style('visibility','visible')
             .style('left',width*0.1 + 'px')
-            .style('top', height*0.3 + 'px');
+            .style('top', height*0.3 + 'px');*/
+    var  topH2 = document.getElementById('pair')
+    topH2.scrollIntoView(true)
 }
 function timeline() {
-    d3.select('#pair').style('visibility','hidden');
-    d3.select('#timeline')
-            .style('visibility','visible')
+    /*d3.select('#pair').style('visibility','hidden');
+    d3.select('#timeline').style('visibility','visible')
             .style('left',width*0.1 + 'px')
-            .style('top', height*0.5 + 'px');
+            .style('top', height*0.5 + 'px');*/
+    var  topH3 = document.getElementById('timeline');
+    topH3.scrollIntoView(true);
 }
 function main() {
     d3.json(data_file).then(function (DATA) {
@@ -100,15 +120,6 @@ function main() {
             stickyNoteCount[notes[i].type] += 1;
         }
         console.log(notes);
-        svg = d3.select('#container')
-            .select('svg')
-            .attr('width', width)
-            .attr('height', height);
-        svg.append('g')
-            .attr('transform', `translate(${width*0.55}, ${height*0.1})`)
-            .append('text')
-            .attr('class', 'title')
-            .text('A sense-making platform to help address online harm');
         d3.select('#selector')
             .style('left',width*0.1 + 'px')
             .style('top', height*0.1 + 'px')
@@ -134,7 +145,8 @@ function main() {
             let type = document.getElementById("notetype");
             let index = type.selectedIndex;
             new_note["type"] = type.options[index].value;
-            new_note["index"] = stickyNoteCount[new_note["type"]]+1;
+            new_note["index"] = stickyNoteCount[new_note["type"]];
+            stickyNoteCount[new_note["type"]] += 1;
             new_note["content"] = document.getElementById("text_on_note").value;
             notes.push(new_note);
             note = d3.select('#stickynotes')
@@ -144,6 +156,8 @@ function main() {
                 .append("textarea")
                 .style("margin-left", width*0.1 + 'px')
                 .style("margin-top", height*0.4 + 'px')
+                .style("margin-left", xScale(new_note["type"])+'px')
+                .style("margin-top", yScale(new_note["index"])+'px')
                 .attr("rows",2)
                 .attr("cols",15)
                 .style('background-color', colorScale(new_note["type"]))
@@ -155,7 +169,7 @@ function main() {
         d3.select('#next').on("click",()=>{
             var content = JSON.stringify({"notes": notes});
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-            saveAs(blob, "user.json");
+            //saveAs(blob, "user.json");
             pairing();
         })
         d3.select('#jump').on("click",()=>{
