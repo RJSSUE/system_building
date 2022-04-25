@@ -9,7 +9,7 @@ let constants = {
 
 };
 let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','action','need','event'];
-let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d23931'];
+let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];//,''
 let stickyNoteCount = {
     'stakeholder_category':0,
     'stakeholder_individual':0,
@@ -17,11 +17,9 @@ let stickyNoteCount = {
     'need':0,
     'event':0
 }
-
-let notes,notes_dict,note,text,drag;
-let xScale,yScale,colorScale;
-function create_note(new_note){
-}
+let combined = []
+let notes,notes_dict,note,text,drag,combine,needs,stakeholders,actions;
+let xScale,yScale,colorScale,eventscale;
 
 function double_click(event, d){
     d3.select(this)
@@ -73,11 +71,7 @@ function draw(notes) {
         .on("drag", dragged)
         .on("end",dragend);
 
-    note.call(drag).on("click", click);
-
-    function click(event, d) {
-        //d3.select(this).attr("opacity",0.8);
-    }
+    note.call(drag).on("click", ()=>{});
 
     function dragstart() {
         d3.select(this).classed("user", true);
@@ -95,22 +89,56 @@ function draw(notes) {
 
 }
 function pairing() {
-    /*d3.select('#selector').style('visibility','hidden');
-    d3.select('#container').style('visibility','hidden');
-    d3.select('#pair')
-            .style('visibility','visible')
-            .style('left',width*0.1 + 'px')
-            .style('top', height*0.3 + 'px');*/
-    var  topH2 = document.getElementById('pair')
-    topH2.scrollIntoView(true)
+    needs = Array.from(new Set(notes.map( (s) => {
+        if (s.type == "need") return s.content;
+        else return;
+    }))).sort().filter(d=>{return d});
+    d3.select('#needtype')
+       .selectAll('option')
+       .data(needs)
+       .enter()
+       .append('option')
+       .text(d=>d);
+    stakeholders = Array.from(new Set(notes.map( (s) => {
+            if (s.type == "stakeholder_category" || s.type == "stakeholder_individual") return s.content;
+            else return;
+    }))).sort().filter(d=>{return d});
+    d3.select('#stakeholdertype')
+       .selectAll('option')
+       .data(stakeholders)
+       .enter()
+       .append('option')
+       .text(d=>d);
+    actions = Array.from(new Set(notes.map( (s) => {
+        if (s.type == "action") return s.content;
+        else return;
+    }))).sort().filter(d=>{return d});
+    d3.select('#actiontype')
+       .selectAll('option')
+       .data(actions)
+       .enter()
+       .append('option')
+       .text(d=>d);
+    var  topH2 = document.getElementById('pair');
+    topH2.scrollIntoView(true);
 }
 function timeline() {
-    /*d3.select('#pair').style('visibility','hidden');
-    d3.select('#timeline').style('visibility','visible')
-            .style('left',width*0.1 + 'px')
-            .style('top', height*0.5 + 'px');*/
     var  topH3 = document.getElementById('timeline');
     topH3.scrollIntoView(true);
+    d3.select('#stacked')
+        .selectAll("textarea")
+        .data(combined)
+        .join("textarea")
+        .style("margin-left", width/2+'px')
+        .style("margin-top", height/2+'px')
+        .attr("rows",2)
+        .attr("cols",15)
+        .style('background-color', s => colorScale(s.type))
+        .text(s => s.content)
+        .style('color',"white")
+        .on("dblclick", double_click)
+        .call(drag)
+        .on("click", ()=>{});
 }
 function main() {
     d3.json(data_file).then(function (DATA) {
@@ -124,27 +152,12 @@ function main() {
             .style('left',width*0.1 + 'px')
             .style('top', height*0.1 + 'px')
             .style('visibility', 'visible');
-        d3.select('#notetype').on('change',()=> {
-            let new_note = {"type": "","content": "","index": 0};
-            let type = document.getElementById("notetype");
-            let index = type.selectedIndex;
-            /*
-            new_note["type"] = type.options[index].value;
-            new_note["index"] = stickyNoteCount[new_note["type"]]+1;
-            new_note["content"] = document.getElementById("text_on_note").value;
-            //userdata.push(new_note);
-            notes.push(new_note);
-            console.log(new_note);
-            console.log(notes);
-            */
-
-        })
-
         d3.select('#create').on('click',()=> {
             let new_note = {"type": "","content": "","index": 0}
             let type = document.getElementById("notetype");
             let index = type.selectedIndex;
             new_note["type"] = type.options[index].value;
+            console.log(new_note["type"]);
             new_note["index"] = stickyNoteCount[new_note["type"]];
             stickyNoteCount[new_note["type"]] += 1;
             new_note["content"] = document.getElementById("text_on_note").value;
@@ -154,8 +167,6 @@ function main() {
                 .data(notes)
                 .enter()
                 .append("textarea")
-                .style("margin-left", width*0.1 + 'px')
-                .style("margin-top", height*0.4 + 'px')
                 .style("margin-left", xScale(new_note["type"])+'px')
                 .style("margin-top", yScale(new_note["index"])+'px')
                 .attr("rows",2)
@@ -166,16 +177,50 @@ function main() {
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
         })
+        d3.select('#combine').on('click',()=> {
+            let new_note = {"type": "event","content": "","index": 0}
+            new_note["index"] = stickyNoteCount["event"];
+            stickyNoteCount["event"] += 1;
+            let content = "For need \"";
+            let need = document.getElementById("needtype");
+            content += need.options[need.selectedIndex].value;
+            content += "\" I hope \""
+            let stakeholder = document.getElementById("stakeholdertype");
+            content += stakeholder.options[stakeholder.selectedIndex].value;
+            content += "\" can \""
+            let action = document.getElementById("actiontype");
+            content += action.options[action.selectedIndex].value
+            new_note["content"] = content;
+            content += "\"."
+            notes.push(new_note);
+            combined.push(new_note);
+            eventscale = d3.scaleLinear()
+                        .domain([0,4])
+                        .range([0, width*3/4]);
+            combine = d3.select('#events')
+                .selectAll("textarea")
+                .data(combined)
+                .enter()
+                .append("textarea")
+                .style('background-color', colorScale(new_note["type"]))
+                .style("margin-left", eventscale((new_note["index"]%5))+'px')
+                .style("margin-top", yScale(Math.floor(new_note["index"]/5)+1)+'px')
+                .text(new_note["content"])
+                .style('color',"white")
+                .call(drag).on("click", ()=>{})
+                .on("dblclick", double_click);
+        })
         d3.select('#next').on("click",()=>{
-            var content = JSON.stringify({"notes": notes});
-            var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-            //saveAs(blob, "user.json");
             pairing();
         })
         d3.select('#jump').on("click",()=>{
             timeline();
         })
-
+        d3.select('#complete').on("click",()=>{
+            var content = JSON.stringify({"notes": notes});
+            var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "user.json");
+        })
         draw(notes);
     })
 }

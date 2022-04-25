@@ -54,10 +54,14 @@ textarea {
     position: relative;
     overflow: auto;
     height: 100%;
-    margin-bottom:5%;
+    padding-bottom:5%;
+}
+#events{
+    position: absolute;
+    text-align: center;
 }
 #stickynotes{
-    /*display: flex;
+    /*
     width: 1%;
     height: 10%;*/
     position: absolute;
@@ -83,7 +87,7 @@ textarea {
 #selector{
     /*position: absolute;*/
     text-anchor: middle;
-    font-size: 0.7rem;
+    font-size: 0.4rem;
     opacity: 80%;
     visibility: visible;
 }

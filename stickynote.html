@@ -37,43 +37,31 @@
 			</div>
 		</div>
 
-		<div class="container">
-			<div id='pair' style="visibility: visible">
-				<h3>Write down the actions you want them to perform:</h3>
-				<br/>
-				<br/>
-				<label for="needtype">For need</label>
-				<select id="needtype">
-					<option>I need to feel safe</option>
-					<option>I need emotional support</option>
-					<option>I need to sanction the offenders</option>
-					<option>I need to transform the online environment</option>
-				</select>
-				<label for="stakeholdertype">I hope</label>
-				<select id="stakeholdertype">
-					<option>offenders</option>
-					<option>online platform</option>
-					<option>family and friends</option>
-					<option>online community members</option>
-				</select>
-				<label for="actiontype">can</label>
-				<select id="actiontype">
-					<option>empathize with me</option>
-					<option>support me</option>
-				</select>
-				<button  id="combine" style="margin-left:5%">create</button>
-				<br/>
-				<br/>
-				<button style="float:right; margin-top:40%" id="jump">next</button>
-			</div>
+		<div class="container" id='pair'>
+			<p>Write down the actions you want them to perform:</p>
+			<br/>
+			<br/>
+			<label for="needtype">For need</label>
+			<select id="needtype">
+			</select>
+			<label for="stakeholdertype">I hope</label>
+			<select id="stakeholdertype">
+			</select>
+			<label for="actiontype">can</label>
+			<select id="actiontype">
+			</select>
+			<button id="combine" style="margin-left:5%" type="button">create</button>
+			<br/>
+			<button style="float:right; margin-top:40%" id="jump" type="button">Next</button>
+			<div id="events"></div>
 		</div>
-		<div class="container">
-			<div id="timeline" style="visibility: visible">
-				<h3>Put the sticky notes onto the timeline:</h3>
-				<br/>
-				<br/>
-				<div style="border:3px solid #ccc"></div>
-			</div>
+		<div class="container" id="timeline">
+			<p>Put the sticky notes onto the timeline:</p>
+			<p>Note: the sticky notes are stacked, drag to put them onto the timeline one by one</p>
+			<br/><br/><br/><br/>
+			<div style="border:3px solid #ccc"></div>
+			<button style="float:right; margin-top:40%" id="done" type="button">Complete</button>
+			<div id="stacked"></div>
 		</div>
 	</div>
 
