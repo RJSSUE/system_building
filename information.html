@@ -31,13 +31,24 @@
             </div>
             <div style="position: absolute;margin-left:55%">
                 <p>Typing (write down what has happened)</p>
-                <textarea rows="8" cols="31"></textarea>
+                <textarea id="story" rows="8" cols="31"></textarea>
             </div>
         </div>
         <div style="margin-top:8%">
             <p>How do you feel? (e.g. sad😭 angry😠 awkward😓)</p>
-            <textarea rows="5" cols="60"></textarea>
+            <textarea id="feeling" rows="5" cols="60"></textarea>
         </div>
-        <button style="float:right; margin-top:15%" onclick="window.location.href = './stickynote.html'">next</button>
+        <button style="float:right; margin-top:15%" onclick="download()" type="button">next</button>
     </div>
 </body>
+<script>
+    function download(){
+        var content = "What happened:\n";
+        content += document.getElementById("story").value;
+        content += "\nFeelings:\n";
+        content += document.getElementById("feeling").value;
+        var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "user.txt");
+        window.location.href = './stickynote.html'
+    }
+</script>

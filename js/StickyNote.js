@@ -218,6 +218,7 @@ function main() {
         })
         d3.select('#complete').on("click",()=>{
             var content = JSON.stringify({"notes": notes});
+            console.log(content);
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
         })
