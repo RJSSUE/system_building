@@ -8,7 +8,7 @@ let data_file = './data/data.json';
 let constants = {
 
 };
-let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','action','need','event'];
+let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','need','action','event'];
 let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];//,''
 let stickyNoteCount = {
     'stakeholder_category':0,
@@ -19,7 +19,7 @@ let stickyNoteCount = {
 }
 let combined = []
 let notes,notes_dict,note,text,drag,combine,needs,stakeholders,actions;
-let xScale,yScale,colorScale,eventscale;
+let xScale,yScale,colorScale,eventxScale,eventyScale;
 
 function double_click(event, d){
     d3.select(this)
@@ -47,11 +47,12 @@ function draw(notes) {
                  .range(stickyNoteColors);
     xScale = d3.scaleBand()
                 .domain(stickyNoteTypes)
-                .range([width*1/4, width*5/6])
+                .range([width*1/4, width*7/6])
                 .padding(0.3);
     yScale = d3.scaleLinear()
-                .domain([0,11])
-                .range([0,height*7/8]);
+                .domain([0,8])
+                .range([height*1/15,height*7/8]);
+
     // notes
     note = d3.select('#stickynotes')
         .selectAll("textarea")
@@ -59,11 +60,11 @@ function draw(notes) {
         .join("textarea")
         .style("margin-left", s => xScale(s.type)+'px')
         .style("margin-top", s => yScale(s.index)+'px')
-        .attr("rows",2)
-        .attr("cols",15)
+        .attr("rows",3)
+        .attr("cols",18)
         .style('background-color', s => colorScale(s.type))
         .text(s => s.content)
-        .style('color',"white")
+        .style('color',"black")
         .on("dblclick", double_click);
 
     drag = d3.drag()
@@ -93,7 +94,7 @@ function pairing() {
         if (s.type == "need") return s.content;
         else return;
     }))).sort().filter(d=>{return d});
-    d3.select('#needtype')
+    d3.select('#need')
        .selectAll('option')
        .data(needs)
        .enter()
@@ -103,17 +104,14 @@ function pairing() {
             if (s.type == "stakeholder_category" || s.type == "stakeholder_individual") return s.content;
             else return;
     }))).sort().filter(d=>{return d});
-    d3.select('#stakeholdertype')
+    d3.select('#stakeholder')
        .selectAll('option')
        .data(stakeholders)
        .enter()
        .append('option')
        .text(d=>d);
-    actions = Array.from(new Set(notes.map( (s) => {
-        if (s.type == "action") return s.content;
-        else return;
-    }))).sort().filter(d=>{return d});
-    d3.select('#actiontype')
+    actions = data.actions;
+    d3.select('#action')
        .selectAll('option')
        .data(actions)
        .enter()
@@ -126,19 +124,20 @@ function timeline() {
     var  topH3 = document.getElementById('timeline');
     topH3.scrollIntoView(true);
     d3.select('#stacked')
-        .selectAll("textarea")
-        .data(combined)
-        .join("textarea")
-        .style("margin-left", width/2+'px')
-        .style("margin-top", height/2+'px')
-        .attr("rows",2)
-        .attr("cols",15)
-        .style('background-color', s => colorScale(s.type))
-        .text(s => s.content)
-        .style('color',"white")
-        .on("dblclick", double_click)
-        .call(drag)
-        .on("click", ()=>{});
+            .selectAll("textarea")
+            .data(combined)
+            .enter()
+            .append("textarea")
+            .style('background-color', s => colorScale(s.type))
+            .style('text-align','left')
+            .style("margin-left", s => eventxScale(s.index%4)+'px')
+            .style("margin-top", s => eventyScale(Math.floor(s.index/4))+'px')
+            .text(s => s.content)
+            .attr("rows",5)
+            .attr("cols",25)
+            .style('color',"black")
+            .call(drag).on("click", ()=>{})
+            .on("dblclick", double_click);
 }
 function main() {
     d3.json(data_file).then(function (DATA) {
@@ -169,11 +168,11 @@ function main() {
                 .append("textarea")
                 .style("margin-left", xScale(new_note["type"])+'px')
                 .style("margin-top", yScale(new_note["index"])+'px')
-                .attr("rows",2)
-                .attr("cols",15)
+                .attr("rows",3)
+                .attr("cols",18)
                 .style('background-color', colorScale(new_note["type"]))
                 .text(new_note["content"])
-                .style('color',"white")
+                .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
         })
@@ -182,31 +181,34 @@ function main() {
             new_note["index"] = stickyNoteCount["event"];
             stickyNoteCount["event"] += 1;
             let content = "For need \"";
-            let need = document.getElementById("needtype");
-            content += need.options[need.selectedIndex].value;
-            content += "\" I hope \""
-            let stakeholder = document.getElementById("stakeholdertype");
-            content += stakeholder.options[stakeholder.selectedIndex].value;
-            content += "\" can \""
-            let action = document.getElementById("actiontype");
-            content += action.options[action.selectedIndex].value
+            content += document.getElementById("needtype").value;
+            content += "\"\nI hope \""
+            content += document.getElementById("stakeholdertype").value;
+            content += "\"\ncan \""
+            content += document.getElementById("actiontype").value;
             new_note["content"] = content;
             content += "\"."
             notes.push(new_note);
             combined.push(new_note);
-            eventscale = d3.scaleLinear()
-                        .domain([0,4])
+            eventxScale = d3.scaleLinear()
+                        .domain([0,3])
                         .range([0, width*3/4]);
+            eventyScale = d3.scaleLinear()
+                        .domain([0,4])
+                        .range([height*1/15,height*7/8]);
             combine = d3.select('#events')
                 .selectAll("textarea")
                 .data(combined)
                 .enter()
                 .append("textarea")
                 .style('background-color', colorScale(new_note["type"]))
-                .style("margin-left", eventscale((new_note["index"]%5))+'px')
-                .style("margin-top", yScale(Math.floor(new_note["index"]/5)+1)+'px')
+                .style('text-align','left')
+                .style("margin-left", eventxScale((new_note["index"]%4))+'px')
+                .style("margin-top", eventyScale(Math.floor(new_note["index"]/4))+'px')
                 .text(new_note["content"])
-                .style('color',"white")
+                .attr("rows",5)
+                .attr("cols",25)
+                .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
         })
@@ -218,7 +220,6 @@ function main() {
         })
         d3.select('#complete').on("click",()=>{
             var content = JSON.stringify({"notes": notes});
-            console.log(content);
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
         })

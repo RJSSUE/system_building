@@ -22,7 +22,7 @@
         },
         {
             "type": "stakeholder_category",
-            "content": "Friend",
+            "content": "Friend and Family",
             "index": 3
         },
         {
@@ -32,7 +32,7 @@
         },
         {
             "type": "stakeholder_category",
-            "content": "Family",
+            "content": "School",
             "index": 4
         },
         {
@@ -59,61 +59,22 @@
             "type": "need",
             "content": "I hope to transform the online environment",
             "index": 4
-        },
-        {
-            "type": "action",
-            "content": "talk about why they conduct the harm",
-            "index": 0
-        },
-        {
-            "type": "action",
-            "content": "acknowledge wrong-doing and issue apology",
-            "index": 1
-        },
-        {
-            "type": "action",
-            "content": "provide emotional support",
-            "index": 2
-        },
-        {
-            "type": "action",
-            "content": "show stance against harm",
-            "index": 3
-        },
-        {
-            "type": "action",
-            "content": "provide advice on how to address the harm",
-            "index": 4
-        },
-        {
-            "type": "action",
-            "content": "moderate harmful content",
-            "index": 5
-        },
-        {
-            "type": "action",
-            "content": "improve infrastructural design",
-            "index": 6
-        },
-        {
-            "type": "action",
-            "content": "refine censorship",
-            "index": 7
-        },
-        {
-            "type": "action",
-            "content": "report or call out offenders",
-            "index": 8
-        },
-        {
-            "type": "action",
-            "content": "raise public awareness",
-            "index": 9
-        },
-        {
-            "type": "action",
-            "content": "prevent in-school repercussion",
-            "index": 10
         }
+    ],
+    "actions": [
+        "Seek information on offenders’ motives for conducting harm",
+        "Seek advice on how to address the harm",
+        "Emotional support",
+        "Show stance against harm",
+        "Acknowledge wrong-doing and issue apology",
+        "Content moderation",
+        "Report or call out offenders",
+        "In-school repercussion",
+        "Acknowledge wrong-doing and issue apology",
+        "Show stance against harm",
+        "Content moderation",
+        "In-school repercussion",
+        "Improve design and moderation",
+        "Raise public awareness"
     ]
 }
