@@ -46,8 +46,8 @@ function draw(notes) {
                  .domain(stickyNoteTypes)
                  .range(stickyNoteColors);
     xScale = d3.scaleBand()
-                .domain(stickyNoteTypes)
-                .range([width*1/4, width*7/6])
+                .domain(stickyNoteTypes.slice(0,3))
+                .range([width*1/4, width*5/6])
                 .padding(0.3);
     yScale = d3.scaleLinear()
                 .domain([0,8])
