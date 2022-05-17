@@ -43,15 +43,15 @@
 			<p>Write down the actions you want them to perform:</p>
 			<br/>
 			<label for="needtype">For need</label>
-			<input id="needtype" name="needtype" type="text" list="need" />
+			<input id="needtype" name="needtype" type="text" list="need" onclick="this.select()"/>
 			<datalist id="need">
 			</datalist>
 			<label for="stakeholdertype">I hope</label>
-			<input id="stakeholdertype" name="stakeholdertype" type="text" list="stakeholder" />
+			<input id="stakeholdertype" name="stakeholdertype" type="text" list="stakeholder" onclick="this.select()"/>
 			<datalist id="stakeholder">
 			</datalist>
 			<label for="actiontype">can</label>
-			<input id="actiontype" name="actiontype" type="text" list="action" />
+			<input id="actiontype" name="actiontype" type="text" list="action" onclick="this.select()"/>
 			<datalist id="action">
 			</datalist>
 			<button id="combine" style="margin-left:5%" type="button">create</button>
@@ -62,8 +62,9 @@
 		<div class="container" id="timeline">
 			<p>Put the sticky notes onto the timeline:</p>
 			<p>Note: drag to put them onto the timeline one by one</p>
-			<br/><br/><br/><br/>
+			<br/><br/><br/>
 			<div style="border:3px solid #ccc"></div>
+			<button id="extend" type="button" style="float:right">extend timeline</button>
 			<button style="float:right; margin-top:40%" id="done">Complete</button>
 			<div id="stacked"></div>
 		</div>

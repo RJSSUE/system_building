@@ -5,9 +5,6 @@ let height = 0.96 * _height;
 let padding = {'left': 0.25*width, 'bottom': 0.1*height, 'top': 0.1*height, 'right': 0.1*width};
 let data = null;
 let data_file = './data/data.json';
-let constants = {
-
-};
 let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','need','action','event'];
 let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];//,''
 let stickyNoteCount = {
@@ -20,26 +17,29 @@ let stickyNoteCount = {
 let combined = []
 let notes,notes_dict,note,text,drag,combine,needs,stakeholders,actions;
 let xScale,yScale,colorScale,eventxScale,eventyScale;
-
+// double click deletion function on the sticky note
 function double_click(event, d){
-    d3.select(this)
-        .text((s) => {
-            let i = 0;
-            notes.map((d)=>{
-                console.log(d);
-                if (d.content==s.content){
-                    delete d;
-                    return;
-                }
-                else{
-                    d.index = i;
-                    i += 1;
-                    return d;
-                }
-            });
-            stickyNoteCount[s.type] -= 1;
-        })
-        .remove();
+    let r=confirm("Do you want to delete this sticky note?");
+    if (r==true){
+        d3.select(this)
+            .text((s) => {
+                //delete the sticky note from "notes" list
+                let i = 0;
+                notes.map((d)=>{
+                    if (d.content==s.content){
+                        delete d;
+                        return;
+                    }
+                    else{
+                        d.index = i;
+                        i += 1;
+                        return d;
+                    }
+                });
+                stickyNoteCount[s.type] -= 1;
+            })
+            .remove();
+    }
 }
 function draw(notes) {
     colorScale = d3.scaleOrdinal()
