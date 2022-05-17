@@ -120,25 +120,6 @@ function pairing() {
     var  topH2 = document.getElementById('pair');
     topH2.scrollIntoView(true);
 }
-function timeline() {
-    var  topH3 = document.getElementById('timeline');
-    topH3.scrollIntoView(true);
-    d3.select('#stacked')
-            .selectAll("textarea")
-            .data(combined)
-            .enter()
-            .append("textarea")
-            .style('background-color', s => colorScale(s.type))
-            .style('text-align','left')
-            .style("margin-left", s => eventxScale(s.index%4)+'px')
-            .style("margin-top", s => eventyScale(Math.floor(s.index/4))+'px')
-            .text(s => s.content)
-            .attr("rows",5)
-            .attr("cols",25)
-            .style('color',"black")
-            .call(drag).on("click", ()=>{})
-            .on("dblclick", double_click);
-}
 function main() {
     d3.json(data_file).then(function (DATA) {
         data = DATA;
@@ -215,8 +196,12 @@ function main() {
         d3.select('#next').on("click",()=>{
             pairing();
         })
-        d3.select('#jump').on("click",()=>{
-            timeline();
+        d3.select('#extend').on("click",()=>{
+            d3.select('#timelines')
+            .append("HR")
+            .attr("width","80%")
+            .style("margin-top","100px")
+            .style("border","3px solid grey")
         })
         d3.select('#complete').on("click",()=>{
             var content = JSON.stringify({"notes": notes});

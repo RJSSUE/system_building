@@ -37,6 +37,13 @@ textarea {
     text-align: center;
     cursor: pointer;
 }
+.to_right {
+    width: 0;
+    height: -5;
+    border-left: 30px solid grey;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+}
 .content {
     /*
     display: flex;
