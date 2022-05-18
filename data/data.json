@@ -2,7 +2,7 @@
     "notes": [
         {
             "type": "stakeholder_category",
-            "content": "Offender",
+            "content": "offender",
             "index": 0
         },
         {
@@ -12,17 +12,17 @@
         },
         {
             "type": "stakeholder_category",
-            "content": "Online Platform (moderator)",
+            "content": "online platform",
             "index": 1
         },
         {
             "type": "stakeholder_category",
-            "content": "Online Community Member",
+            "content": "online community member",
             "index": 2
         },
         {
             "type": "stakeholder_category",
-            "content": "Friend and Family",
+            "content": "family and friends",
             "index": 3
         },
         {
@@ -32,7 +32,7 @@
         },
         {
             "type": "stakeholder_category",
-            "content": "School",
+            "content": "school",
             "index": 4
         },
         {
@@ -42,7 +42,7 @@
         },
         {
             "type": "need",
-            "content": "I need emotional support",
+            "content": "I need emotional support and validation",
             "index": 1
         },
         {
@@ -61,20 +61,34 @@
             "index": 4
         }
     ],
-    "actions": [
-        "Seek information on offenders’ motives for conducting harm",
-        "Seek advice on how to address the harm",
-        "Emotional support",
-        "Show stance against harm",
-        "Acknowledge wrong-doing and issue apology",
-        "Content moderation",
-        "Report or call out offenders",
-        "In-school repercussion",
-        "Acknowledge wrong-doing and issue apology",
-        "Show stance against harm",
-        "Content moderation",
-        "In-school repercussion",
-        "Improve design and moderation",
-        "Raise public awareness"
-    ]
+    "prompts": {
+        "I need to make sense of what has happened": {
+            "offender": ["Seek information on offend- ers’ motives for conducting harm"],
+            "family and friends": ["Seek advice on how to address the harm"],
+            "online platform": ["Seek advice on how to address the harm"],
+            "school": ["Seek advice on how to address the harm"]
+        },
+        "I need emotional support and validation": {
+            "offender": ["Acknowledge wrong-doing and issue apology"],
+            "family and friends": ["Emotional support"],
+            "online platform": ["Show stance against harm"],
+            "online community members": ["Emotional support","Show stance against harm"]
+        },
+        "I hope to do justice to the offenders": {
+            "online platform": ["Content moderation"],
+            "online community members": ["Report or call out offenders"],
+            "school": ["In-school repercussion"]
+        },
+        "I hope to be safe": {
+            "offender": ["Acknowledge wrong-doing and issue apology"],
+            "online platform": ["Content moderation"],
+            "online community members": ["Acknowledge wrong-doing and issue apology","Show stance against harm"],
+            "school": ["In-school repercussion"]
+        },
+        "I hope to transform the online environment": {
+            "online platform": ["Improve design and moderation"],
+            "online community members": ["Raise public awareness"],
+            "school": ["Raise public awareness"]
+        }
+    }
 }

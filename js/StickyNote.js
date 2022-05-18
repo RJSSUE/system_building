@@ -90,33 +90,30 @@ function draw(notes) {
 
 }
 function pairing() {
-    needs = Array.from(new Set(notes.map( (s) => {
+    needs = Array.from(new Set(
+    notes.map( (s) => {
         if (s.type == "need") return s.content;
         else return;
-    }))).sort().filter(d=>{return d});
+    }).concat(Object.keys(data.prompts)))).sort().filter(d=>{return d});
     d3.select('#need')
        .selectAll('option')
        .data(needs)
        .enter()
        .append('option')
        .text(d=>d);
+
     stakeholders = Array.from(new Set(notes.map( (s) => {
-            if (s.type == "stakeholder_category" || s.type == "stakeholder_individual") return s.content;
-            else return;
+        if (s.type == "stakeholder_category" || s.type == "stakeholder_individual") return s.content;
+        else return;
     }))).sort().filter(d=>{return d});
-    d3.select('#stakeholder')
-       .selectAll('option')
-       .data(stakeholders)
-       .enter()
-       .append('option')
-       .text(d=>d);
-    actions = data.actions;
-    d3.select('#action')
-       .selectAll('option')
-       .data(actions)
-       .enter()
-       .append('option')
-       .text(d=>d);
+
+
+//    d3.select('#action')
+//       .selectAll('option')
+//       .data(actions)
+//       .enter()
+//       .append('option')
+//       .text(d=>d);
     var  topH2 = document.getElementById('pair');
     topH2.scrollIntoView(true);
 }
@@ -208,6 +205,43 @@ function main() {
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
         })
+        d3.select('#needtype')
+            .on('change',()=>{
+                let need_ = document.getElementById("needtype").value;
+                if (need_ in data.prompts){
+                    $("#stakeholder").empty();
+                    d3.select('#stakeholder')
+                       .selectAll('option')
+                       .data(Object.keys(data.prompts[need_]))
+                       .enter()
+                       .append('option')
+                       .text(d=>d)
+                } else {
+                    $("#stakeholder").empty();
+                    d3.select('#stakeholder')
+                       .selectAll('option')
+                       .data(stakeholders)
+                       .enter()
+                       .append('option')
+                       .text(d=>d);
+                }
+            })
+        d3.select('#stakeholdertype')
+            .on('change',()=>{
+                let need_ = document.getElementById("needtype").value;
+                let stakeholder_ = document.getElementById("stakeholdertype").value;
+                if (need_ in data.prompts && stakeholder_ in data.prompts[need_]){
+                    $("#action").empty();
+                    d3.select('#action')
+                       .selectAll('option')
+                       .data(data.prompts[need_][stakeholder_])
+                       .enter()
+                       .append('option')
+                       .text(d=>d)
+                } else {
+                    $("#actionr").empty();
+                }
+            })
         draw(notes);
     })
 }
