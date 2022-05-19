@@ -15,11 +15,11 @@
 		<div class="container">
 			<div id="category_title" style="position:absolute;margin-left:27%;width:60%;display:flex;font-size:18px">
 				<p>stakeholder (category)</p>
-				<p style="margin-left:7%">stakeholder (individual)</p>
-				<p style="margin-left:12%">need</p>
+				<p style="margin-left:4%">stakeholder (individual)</p>
+				<p style="margin-left:10%">need</p>
 			</div>
 			<div id='stickynotes'></div>
-			<div id='selector' style="position: absolute;font-size:15px;">
+			<div id='selector' style="position: absolute;font-size:15px;width:20%">
 				<form>
 					<p id="note_type">Please choose the note type (stakeholder or need)</p>
 					<label for="notetype">Choose a type:</label>
@@ -43,18 +43,18 @@
 			<p>Write down the actions you want them to perform:</p>
 			<br/>
 			<label for="needtype">For need</label>
-			<input id="needtype" name="needtype" type="text" list="need" onclick="this.select()"/>
+			<input id="needtype" name="needtype" type="text" list="need" onclick="this.select()" style="width:32%"/>
 			<datalist id="need">
 			</datalist>
 			<label for="stakeholdertype">I hope</label>
-			<input id="stakeholdertype" name="stakeholdertype" type="text" list="stakeholder" onclick="this.select()"/>
+			<input id="stakeholdertype" name="stakeholdertype" type="text" list="stakeholder" onclick="this.select()" style="width:21%"/>
 			<datalist id="stakeholder">
 			</datalist>
 			<label for="actiontype">can</label>
-			<input id="actiontype" name="actiontype" type="text" list="action" onclick="this.select()"/>
+			<input id="actiontype" name="actiontype" type="text" list="action" onclick="this.select()" style="width:32%"/>
 			<datalist id="action">
 			</datalist>
-			<button id="combine" style="margin-left:5%" type="button">create</button>
+			<button id="combine" style="margin-top:1%;float:right" type="button">create</button>
 			<br/>
 			<div id="events"></div>
 			<br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -64,7 +64,7 @@
 			<p>Note: drag to put them onto the timeline one by one</p>
 			<div id="timelines">
 			</div>
-			<div style="margin-top:73px;display:flex">
+			<div style="margin-top:103px;display:flex">
 				<HR width="80%" style="margin-top:27px;border:3px solid grey">
 				<div class="to_right"></div>
 				<button id="extend" type="button" style="margin-left:50px">extend timeline</button>

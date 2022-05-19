@@ -182,6 +182,9 @@ function main() {
                 .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
+            document.getElementById("needtype").value = "";
+            document.getElementById("stakeholdertype").value = "";
+            document.getElementById("actiontype").value = "";
         })
         d3.select('#next').on("click",()=>{
             pairing();
@@ -190,7 +193,7 @@ function main() {
             d3.select('#timelines')
             .append("HR")
             .attr("width","80%")
-            .style("margin-top","100px")
+            .style("margin-top","130px")
             .style("border","3px solid grey")
         })
         d3.select('#done').on("click",()=>{
