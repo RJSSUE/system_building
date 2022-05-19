@@ -3,10 +3,10 @@ let _height = $(window).height();
 let width = 0.9 * _width;
 let height = 0.96 * _height;
 let padding = {'left': 0.25*width, 'bottom': 0.1*height, 'top': 0.1*height, 'right': 0.1*width};
-let data = null;
-let data_file = './data/data.json';
+let data = null;// object parsed from the json file
+let data_file = './data/data.json';// data path
 let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','need','action','event'];
-let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];//,''
+let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];
 let stickyNoteCount = {
     'stakeholder_category':0,
     'stakeholder_individual':0,
@@ -15,8 +15,12 @@ let stickyNoteCount = {
     'event':0
 }
 let combined = []
-let notes,notes_dict,note,text,drag,combine,needs,stakeholders,actions;
-let xScale,yScale,colorScale,eventxScale,eventyScale;
+let notes;// initiate as data.notes, stores all the sticky notes
+let note;// the html object, d3.select('#stickynotes')
+let drag;// d3.drag()
+let needs,stakeholders,actions;// array to be bound with datalist
+let xScale,yScale,colorScale,eventxScale,eventyScale;//scales for stickynote layout and event layout
+
 // double click deletion function on the sticky note
 function double_click(event, d){
     let r=confirm("Do you want to delete this sticky note?");
@@ -41,7 +45,10 @@ function double_click(event, d){
             .remove();
     }
 }
+
+// draw the predefined sticky notes
 function draw(notes) {
+    // define scale
     colorScale = d3.scaleOrdinal()
                  .domain(stickyNoteTypes)
                  .range(stickyNoteColors);
@@ -67,28 +74,20 @@ function draw(notes) {
         .style('color',"black")
         .on("dblclick", double_click);
 
+    // drag to move
     drag = d3.drag()
-        .on("start", dragstart)
-        .on("drag", dragged)
-        .on("end",dragend);
+        .on("drag", dragged);
 
     note.call(drag).on("click", ()=>{});
-
-    function dragstart() {
-        d3.select(this).classed("user", true);
-    }
 
     function dragged(event, d) {
         d3.select(this)
             .style("margin-left", d.x = event.x+"px")
             .style("margin-top", d.y = event.y+'px');
     }
-    function dragend(event, d){
-        d3.select(this).attr("opacity",1);
-    }
-
-
 }
+
+// combine need, stakeholder, action
 function pairing() {
     needs = Array.from(new Set(
     notes.map( (s) => {
@@ -107,13 +106,6 @@ function pairing() {
         else return;
     }))).sort().filter(d=>{return d});
 
-
-//    d3.select('#action')
-//       .selectAll('option')
-//       .data(actions)
-//       .enter()
-//       .append('option')
-//       .text(d=>d);
     var  topH2 = document.getElementById('pair');
     topH2.scrollIntoView(true);
 }
@@ -124,11 +116,11 @@ function main() {
         for (i in notes){
             stickyNoteCount[notes[i].type] += 1;
         }
-        console.log(notes);
         d3.select('#selector')
             .style('left',width*0.1 + 'px')
             .style('top', height*0.1 + 'px')
             .style('visibility', 'visible');
+        // create new sticky notes
         d3.select('#create').on('click',()=> {
             let new_note = {"type": "","content": "","index": 0}
             let type = document.getElementById("notetype");
@@ -154,6 +146,7 @@ function main() {
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
         })
+        // create combined sticky notes
         d3.select('#combine').on('click',()=> {
             let new_note = {"type": "event","content": "","index": 0}
             new_note["index"] = stickyNoteCount["event"];
@@ -174,7 +167,7 @@ function main() {
             eventyScale = d3.scaleLinear()
                         .domain([0,4])
                         .range([height*1/15,height*7/8]);
-            combine = d3.select('#events')
+            d3.select('#events')
                 .selectAll("textarea")
                 .data(combined)
                 .enter()
@@ -200,7 +193,7 @@ function main() {
             .style("margin-top","100px")
             .style("border","3px solid grey")
         })
-        d3.select('#complete').on("click",()=>{
+        d3.select('#done').on("click",()=>{
             var content = JSON.stringify({"notes": notes});
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
