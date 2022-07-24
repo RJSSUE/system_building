@@ -197,7 +197,6 @@ function main() {
                 .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
-            document.getElementById("stakeholdertype").value = "";
             document.getElementById("outcometype").value = "";
         })
         d3.select('#next').on("click",()=>{
