@@ -1,69 +1,119 @@
 {
     "notes": [
         {
-            "type": "stakeholder_category",
+            "type": "stakeholder",
             "content": "offender",
             "index": 0
         },
         {
-            "type": "stakeholder_individual",
-            "content": "Bob",
+            "type": "feeling",
+            "content": "I want to feel safe",
             "index": 0
         },
         {
-            "type": "stakeholder_category",
-            "content": "online platform",
-            "index": 1
-        },
-        {
-            "type": "stakeholder_category",
-            "content": "online community member",
-            "index": 2
-        },
-        {
-            "type": "stakeholder_category",
-            "content": "family and friends",
-            "index": 3
-        },
-        {
-            "type": "stakeholder_individual",
-            "content": "Emily",
-            "index": 1
-        },
-        {
-            "type": "stakeholder_category",
-            "content": "school",
-            "index": 4
-        },
-        {
-            "type": "need",
-            "content": "I need to make sense of what has happened",
+            "type": "action",
+            "content": " I hope the offender can be banned",
             "index": 0
-        },
-        {
-            "type": "need",
-            "content": "I need emotional support and validation",
-            "index": 1
-        },
-        {
-            "type": "need",
-            "content": "I hope to do justice to the offenders",
-            "index": 2
-        },
-        {
-            "type": "need",
-            "content": "I hope to be safe",
-            "index": 3
-        },
-        {
-            "type": "need",
-            "content": "I hope to transform the online environment",
-            "index": 4
         }
     ],
+    "questions": {
+        "stakeholder": "Who do you think can help you address the harm? Who do you think has responsibility for helping you address the harm?",
+        "feeling": "As the victim, how would you want to feel?",
+        "action": "As the victim, what are some desired outcomes for addressing the harm?"
+    },
     "prompts": {
+        "stakeholders": [
+            "offender",
+            "online platform",
+            "online community member",
+            "family and friends",
+            "school"
+        ],
+        "outcomes": [
+            "Acknowledge wrong-doing and issue apology",
+            "Seek information on offenders’ motives for conducting harm",
+            "Seek advice on how to address the harm",
+            "Emotional support",
+            "Show stance against harm",
+            "Ban offender",
+            "Remove offensive content",
+            "Give warning to offenders",
+            "Report or call out offenders",
+            "In-school repercussion",
+            "Improve design and moderation",
+            "Raise public awareness",
+            "I need to make sense of what has happened",
+            "I need emotional support",
+            "I hope to do justice to the offenders",
+            "I hope to be safe",
+            "I hope to transform the online environment"
+        ]
+    },
+    "discarded" : {
+        "notes": [
+            {
+                "type": "stakeholder_category",
+                "content": "offender",
+                "index": 0
+            },
+            {
+                "type": "stakeholder_individual",
+                "content": "Bob",
+                "index": 0
+            },
+            {
+                "type": "stakeholder_category",
+                "content": "online platform",
+                "index": 1
+            },
+            {
+                "type": "stakeholder_category",
+                "content": "online community member",
+                "index": 2
+            },
+            {
+                "type": "stakeholder_category",
+                "content": "family and friends",
+                "index": 3
+            },
+            {
+                "type": "stakeholder_individual",
+                "content": "Emily",
+                "index": 1
+            },
+            {
+                "type": "stakeholder_category",
+                "content": "school",
+                "index": 4
+            },
+            {
+                "type": "need",
+                "content": "I need to make sense of what has happened",
+                "index": 0
+            },
+            {
+                "type": "need",
+                "content": "I need emotional support and validation",
+                "index": 1
+            },
+            {
+                "type": "need",
+                "content": "I hope to do justice to the offenders",
+                "index": 2
+            },
+            {
+                "type": "need",
+                "content": "I hope to be safe",
+                "index": 3
+            },
+            {
+                "type": "need",
+                "content": "I hope to transform the online environment",
+                "index": 4
+            }
+        ],
         "I need to make sense of what has happened": {
-            "offender": ["Seek information on offend- ers’ motives for conducting harm"],
+            "offender": ["Seek information on offenders’ motives for conducting harm"],
             "family and friends": ["Seek advice on how to address the harm"],
             "online platform": ["Seek advice on how to address the harm"],
             "school": ["Seek advice on how to address the harm"]

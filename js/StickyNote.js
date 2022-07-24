@@ -5,20 +5,20 @@ let height = 0.96 * _height;
 let padding = {'left': 0.25*width, 'bottom': 0.1*height, 'top': 0.1*height, 'right': 0.1*width};
 let data = null;// object parsed from the json file
 let data_file = './data/data.json';// data path
-let stickyNoteTypes = ['stakeholder_category','stakeholder_individual','need','action','event'];
+let stickyNoteTypes = ['stakeholder','feeling','action','stakeholder_individual','event'];
+//stakeholder_individual not in use; need & action combined
 let stickyNoteColors = ['#fcb6d0','#ffdee1','#f8dda9','#b6dcb6','#d9f1f1'];
 let stickyNoteCount = {
-    'stakeholder_category':0,
-    'stakeholder_individual':0,
+    'stakeholder':0,
+    'feeling':0,
     'action':0,
-    'need':0,
-    'event':0
+    'event':0,
 }
 let combined = []
 let notes;// initiate as data.notes, stores all the sticky notes
 let note;// the html object, d3.select('#stickynotes')
 let drag;// d3.drag()
-let needs,stakeholders,actions;// array to be bound with datalist
+let feelings,stakeholders,actions;// array to be bound with datalist
 let xScale,yScale,colorScale,eventxScale,eventyScale;//scales for stickynote layout and event layout
 
 // double click deletion function on the sticky note
@@ -87,24 +87,37 @@ function draw(notes) {
     }
 }
 
-// combine need, stakeholder, action
+// combine stakeholder with feeling & action
 function pairing() {
-    needs = Array.from(new Set(
-    notes.map( (s) => {
-        if (s.type == "need") return s.content;
-        else return;
-    }).concat(Object.keys(data.prompts)))).sort().filter(d=>{return d});
-    d3.select('#need')
+    outcomes = Array.from(
+        new Set(
+            notes.map( (s) => {
+                if (s.type == "feeling" || s.type == "action") return s.content;
+                else return;
+            }).concat(data.prompts.outcomes)
+        )
+    ).sort().filter(d=>{return d});
+    d3.select('#outcome')
        .selectAll('option')
-       .data(needs)
+       .data(outcomes)
        .enter()
        .append('option')
        .text(d=>d);
 
-    stakeholders = Array.from(new Set(notes.map( (s) => {
-        if (s.type == "stakeholder_category" || s.type == "stakeholder_individual") return s.content;
-        else return;
-    }))).sort().filter(d=>{return d});
+    stakeholders = Array.from(
+        new Set(
+            notes.map( (s) => {
+                if (s.type == "stakeholder") return s.content;
+                else return;
+            }).concat(data.prompts.stakeholders)
+        )
+    ).sort().filter(d=>{return d});
+    d3.select('#stakeholder')
+           .selectAll('option')
+           .data(stakeholders)
+           .enter()
+           .append('option')
+           .text(d=>d);
 
     var  topH2 = document.getElementById('pair');
     topH2.scrollIntoView(true);
@@ -120,13 +133,17 @@ function main() {
             .style('left',width*0.1 + 'px')
             .style('top', height*0.1 + 'px')
             .style('visibility', 'visible');
+        // display questions according to type
+        d3.select("#notetype")
+            .on('change', ()=>{
+                let type = document.getElementById("notetype").value;
+                d3.select("#question")
+                    .text(data.questions[type]);
+            })
         // create new sticky notes
         d3.select('#create').on('click',()=> {
-            let new_note = {"type": "","content": "","index": 0}
-            let type = document.getElementById("notetype");
-            let index = type.selectedIndex;
-            new_note["type"] = type.options[index].value;
-            console.log(new_note["type"]);
+            let new_note = {"type": "","content": "","index": 0};
+            new_note["type"] = document.getElementById("notetype").value;
             new_note["index"] = stickyNoteCount[new_note["type"]];
             stickyNoteCount[new_note["type"]] += 1;
             new_note["content"] = document.getElementById("text_on_note").value;
@@ -151,14 +168,12 @@ function main() {
             let new_note = {"type": "event","content": "","index": 0}
             new_note["index"] = stickyNoteCount["event"];
             stickyNoteCount["event"] += 1;
-            let content = "For need \"";
-            content += document.getElementById("needtype").value;
-            content += "\"\nI hope \""
+            let content = "I hope \""
             content += document.getElementById("stakeholdertype").value;
-            content += "\"\ncan \""
-            content += document.getElementById("actiontype").value;
-            new_note["content"] = content;
+            content += "\"\ncan achieve \""
+            content += document.getElementById("outcometype").value;
             content += "\"."
+            new_note["content"] = content;
             notes.push(new_note);
             combined.push(new_note);
             eventxScale = d3.scaleLinear()
@@ -182,9 +197,8 @@ function main() {
                 .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
-            document.getElementById("needtype").value = "";
             document.getElementById("stakeholdertype").value = "";
-            document.getElementById("actiontype").value = "";
+            document.getElementById("outcometype").value = "";
         })
         d3.select('#next').on("click",()=>{
             pairing();
@@ -201,43 +215,6 @@ function main() {
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");
         })
-        d3.select('#needtype')
-            .on('change',()=>{
-                let need_ = document.getElementById("needtype").value;
-                if (need_ in data.prompts){
-                    $("#stakeholder").empty();
-                    d3.select('#stakeholder')
-                       .selectAll('option')
-                       .data(Object.keys(data.prompts[need_]))
-                       .enter()
-                       .append('option')
-                       .text(d=>d)
-                } else {
-                    $("#stakeholder").empty();
-                    d3.select('#stakeholder')
-                       .selectAll('option')
-                       .data(stakeholders)
-                       .enter()
-                       .append('option')
-                       .text(d=>d);
-                }
-            })
-        d3.select('#stakeholdertype')
-            .on('change',()=>{
-                let need_ = document.getElementById("needtype").value;
-                let stakeholder_ = document.getElementById("stakeholdertype").value;
-                if (need_ in data.prompts && stakeholder_ in data.prompts[need_]){
-                    $("#action").empty();
-                    d3.select('#action')
-                       .selectAll('option')
-                       .data(data.prompts[need_][stakeholder_])
-                       .enter()
-                       .append('option')
-                       .text(d=>d)
-                } else {
-                    $("#actionr").empty();
-                }
-            })
         draw(notes);
     })
 }
