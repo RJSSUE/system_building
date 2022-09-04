@@ -232,8 +232,7 @@ function main() {
         }
         d3.select('#selector')
             .style('left',width*0.1 + 'px')
-            .style('top', height*0.1 + 'px')
-            .style('visibility', 'visible');
+            .style('top', height*0.1 + 'px');
         // display questions according to type
         d3.select("#notetype")
             .on('change', ()=>{
@@ -318,6 +317,7 @@ function main() {
                 .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
+            document.getElementById("stakeholdertype").value = "";
             document.getElementById("outcometype").value = "";
         })
 
@@ -357,7 +357,19 @@ function main() {
                 .style('color',"black")
                 .call(drag).on("click", ()=>{})
                 .on("dblclick", double_click);
+
+            document.getElementById("prestakeholdertype").value = "";
             document.getElementById("preoutcometype").value = "";
+        })
+        d3.select("#go_to_createnote").on("click",()=>{
+            d3.select("#two")
+                .classed("active", false)
+                .classed("completed", true);
+            d3.select("#three")
+                .classed("active", true);
+            d3.select("#createnotes")
+                .style("visibility","visible");
+            alert("if you don’t see the next question, please scroll down");
         })
         d3.select('#next').on("click",()=>{
             d3.select("#four")
@@ -377,7 +389,12 @@ function main() {
             .style("border","3px solid grey")
         })
         d3.select('#done').on("click",()=>{
-            var content = JSON.stringify({"notes": notes});
+            d3.select("#five")
+                .classed("active", false)
+                .classed("completed", true);
+            var content = "Feelings:\n";
+            content += document.getElementById("feeling").value;
+            content += JSON.stringify({"notes": notes});
             //look here for bolding
             var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
             saveAs(blob, "user.json");

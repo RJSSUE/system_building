@@ -15,10 +15,10 @@
 		<div id="one" class="stepper-item completed">
 			<div class="step-counter">1</div>
 		</div>
-		<div id="two" class="stepper-item completed">
+		<div id="two" class="stepper-item active">
 			<div class="step-counter">2</div>
 		</div>
-		<div id="three" class="stepper-item active">
+		<div id="three" class="stepper-item">
 			<div class="step-counter">3</div>
 		</div>
 		<div id="four" class="stepper-item">
@@ -29,7 +29,20 @@
 		</div>
 	</div>
 	<div class="content">
+
 		<div class="container">
+			<p>Imagine that you have been through the following situation and answer the following questions accordingly.</p>
+			<p> <em> You and your friend are messaging privately about an issue that is sensitive to you. Your friend shares the conversation publicly on a social media account.</em></p>
+
+			<div style="margin-top:2%">
+				<p>Please describe some impact that this event may cause to you. For example,</p>
+				<p>(1) Feelings (fear, anger, shame, embarrassment, etc)</p>
+				<p>(2) Social impact (people’s reaction, etc)</p>
+				<textarea id="feeling"name="feeling"rows="8"cols="31"></textarea>
+			</div>
+			<button style="float:right; margin-top:15%; background-color:lightblue; " id="go_to_createnote">Next question</button>
+		</div>
+		<div class="container" id="createnotes" style="visibility:hidden">
 			<div style="position:absolute;margin-left:27%;width:60%">
 				<p><span class="dot"> &nbsp &#63;</span> <span style="color: blue">Double click to delete the note. </span></p>
 			</div>
@@ -39,7 +52,7 @@
 				<p style="margin-left:16%">3) impacts</p>
 			</div>
 			<div id='stickynotes'></div>
-			<div id='selector' style="position: absolute;font-size:15px;width:20%">
+			<div id='selector' style="position:absolute;font-size:15px;width:20%;">
 				<p id="note_type"> In this step, we will brainstorm the people, needs and actions that are related to the harm you have experienced.</p>
 				<p> We will guide you through the process step by step by creating sticky notes. In the next step, you will link the stakeholders, needs and actions together.</p>
 				<strong> <p id="question"> 1) Stakeholder: Who do you think can help you mitigate the impact?
@@ -93,6 +106,9 @@
 			</datalist>
 			<button id="combine2" style="margin-top:1%;float:right" type="button">create</button>
 			<br/>
+			<br/>
+			<button id="next" style="margin-top:2%;float:right" type="button">Next question</button>
+			<br/>
 			<div id="events"></div>
 			<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -109,7 +125,7 @@
 				<button id="extend" type="button" style="margin-left:50px">extend timeline</button>
 			</div>
 			<input type="hidden" name="stickypos" id ="stickypos" value="" />
-			<button id = "complete" name="complete" type = "submit" style="margin-right:1px; margin-bottom: 25px; float: right; margin-top: 20px; background-color:lightblue;" >Go to follow-up Survey</button>
+			<button id = "done" name="complete" type = "submit" style="margin-right:1px; margin-bottom: 25px; float: right; margin-top: 20px; background-color:lightblue;" >Go to follow-up Survey</button>
 			<br><br><br>
 		</div>
 	</div>
