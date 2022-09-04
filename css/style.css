@@ -80,14 +80,6 @@ textarea {
     opacity: 80%;
     visibility: visible;
 }
-#footer {
-  position: relative;
-  margin-top: -50px;
-  /* negative value of footer height */
-  height: 50px;
-  clear: both;
-  background-color: lavenderblush;
-}
 
 button{
     cursor: pointer;
