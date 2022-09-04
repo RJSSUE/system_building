@@ -72,23 +72,7 @@ textarea {
     position: absolute;
     text-align: center;
 }
-#pair{
-    /**/
-}
-#tooltip{
-    position: absolute;
-    text-align: center;
-    background-color: rgba(250, 250, 250, 1);
-    border: 1px solid rgb(200,200,200);
-    border-radius:5px;
-    font-size:0.8rem;
-    width: 15rem;;
-    padding:4px;
-    color:black;
-    z-index: 3;
-    visibility: hidden;
-    opacity: 0.8;
-}
+
 #selector{
     /*position: absolute;*/
     text-anchor: middle;
@@ -96,6 +80,15 @@ textarea {
     opacity: 80%;
     visibility: visible;
 }
+#footer {
+  position: relative;
+  margin-top: -50px;
+  /* negative value of footer height */
+  height: 50px;
+  clear: both;
+  background-color: lavenderblush;
+}
+
 button{
     cursor: pointer;
 }
@@ -118,3 +111,92 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: #666;
 }
 
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: lightblue;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .stepper-wrapper {
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position:fixed
+    top: 0px;
+    left: 0px;
+  }
+  .stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
+
+  .stepper-item::before {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: -50%;
+    z-index: 2;
+  }
+
+  .stepper-item::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 2;
+  }
+
+  .stepper-item .step-counter {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    margin-bottom: 6px;
+  }
+
+  .stepper-item.active {
+    font-weight: bold;
+  }
+
+  .stepper-item.completed .step-counter {
+    background-color: lightseagreen;
+  }
+
+  .stepper-item.completed::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid lightseagreen;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 3;
+  }
+
+  .stepper-item:first-child::before {
+    content: none;
+  }
+  .stepper-item:last-child::after {
+    content: none;
+  }
